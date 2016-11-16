@@ -34,9 +34,22 @@ df <- gapminder %>%
   filter(year > 1952)
 
 qplot(gdpPercap,lifeExp,data=df, color = continent, xlab="Per-Capita GDP (int. dollars)", ylab="Life Expectancy (years)") + scale_x_log10()
-qplot(gdpPercap,lifeExp,data=df, color = year, xlab="Per-Capita GDP (int. dollars)", ylab="Life Expectancy (years)") + scale_x_log10()
+qplot(gdpPercap,lifeExp,data=df, color = year, xlab="Per-Capita GDP (int. dollars)", ylab="Life Expectancy (years)") + scale_x_log10() + geom_smooth(method=lm, se = TRUE)
 ```
 
+The results of the linear regression are as follows:
+
+```{r}
+fit_world <- lm(lifeExp ~ log(gdpPercap), data = df)
+summary(fit_world)
+```
+
+And the residuals look like:
+
+```{r}
+qplot(predict(fit_world), residuals(fit_world),alpha=0.4,xlab="Predicted Life Expectancy",ylab="Residuals")
+```
+As a result we can say that there is a clear relationship between life expectancy and per-capita GDP.
 
 A follow-up question on the relationship between GDP and life expectancy is whether or not the rate of change of a country's life expectancy is impacted by the rate of change of its per-capita GDP. 
 
@@ -73,4 +86,4 @@ fit_oceania <- lm(lifeExp_change ~ gdpPercap_change, data = (df %>% filter(conti
 summary(fit_oceania)$coef
 ```
 
-Note that the growth rate of per-capita GDP appears to have an impact on life expectancy growth rate for both Europe and Asia (p-value < $10^{-4}$), while having a minimal impact on the other continents.
+Note that the growth rate of per-capita GDP appears to have an impact on life expectancy growth rate for both Europe and Asia (p-value < 10<sup>-4</sup>), while having a minimal impact on the other continents.
