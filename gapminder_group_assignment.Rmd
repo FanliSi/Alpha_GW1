@@ -8,7 +8,8 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+# Note that echo = FALSE hides all R code, change to TRUE to show R code in document
 ```
 
 # Our Hypothesis:
@@ -24,15 +25,16 @@ library(gapminder)
 #install.packages("gapminder")
 ```
 
-A couple potential plots:
+As an overview let us consider how life expectancy varies as a function of per-capita GDP:
+
 ```{r}
 df <- gapminder %>%
   mutate(gdpPercap_change = 100*((gdpPercap - lag(gdpPercap)))/gdpPercap) %>%
   mutate(lifeExp_change = 100*((lifeExp - lag(lifeExp)))/lifeExp) %>%
   filter(year > 1952)
 
-qplot(log(gdpPercap),lifeExp,data=df, color = continent)
-qplot(log(gdpPercap),lifeExp,data=df, color = year)
+qplot(gdpPercap,lifeExp,data=df, color = continent, xlab="Per-Capita GDP (int. dollars)", ylab="Life Expectancy (years)") + scale_x_log10()
+qplot(gdpPercap,lifeExp,data=df, color = year, xlab="Per-Capita GDP (int. dollars)", ylab="Life Expectancy (years)") + scale_x_log10()
 ```
 
 
@@ -45,16 +47,30 @@ ggplot(df, aes(x=gdpPercap_change,y=lifeExp_change, color = continent)) + geom_p
 
 The scatterplot includes linear regression lines for each continent and the fitting results are as follows:
 
+Africa:
 ```{r}
 fit_africa <- lm(lifeExp_change ~ gdpPercap_change, data = (df %>% filter(continent == 'Africa')))
-summary(fit_africa)
-fit_americas <- lm(lifeExp_change ~ gdpPercap_change, data = (df %>% filter(continent == 'Americas')))
-summary(fit_americas)
-fit_asia <- lm(lifeExp_change ~ gdpPercap_change, data = (df %>% filter(continent == 'Asia')))
-summary(fit_asia)
-fit_europe <- lm(lifeExp_change ~ gdpPercap_change, data = (df %>% filter(continent == 'Europe')))
-summary(fit_europe)
-fit_oceania <- lm(lifeExp_change ~ gdpPercap_change, data = (df %>% filter(continent == 'Oceania')))
-summary(fit_oceania)
-
+summary(fit_africa)$coef
 ```
+The Americas:
+```{r}
+fit_americas <- lm(lifeExp_change ~ gdpPercap_change, data = (df %>% filter(continent == 'Americas')))
+summary(fit_americas)$coef
+```
+Asia:
+```{r}
+fit_asia <- lm(lifeExp_change ~ gdpPercap_change, data = (df %>% filter(continent == 'Asia')))
+summary(fit_asia)$coef
+```
+Europe:
+```{r}
+fit_europe <- lm(lifeExp_change ~ gdpPercap_change, data = (df %>% filter(continent == 'Europe')))
+summary(fit_europe)$coef
+```
+Oceania:
+```{r}
+fit_oceania <- lm(lifeExp_change ~ gdpPercap_change, data = (df %>% filter(continent == 'Oceania')))
+summary(fit_oceania)$coef
+```
+
+Note that the growth rate of per-capita GDP appears to have an impact on life expectancy growth rate for both Europe and Asia (p-value < $10^{-4}$), while having a minimal impact on the other continents.
