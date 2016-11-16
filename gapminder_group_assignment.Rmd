@@ -35,3 +35,26 @@ qplot(log(gdpPercap),lifeExp,data=df, color = continent)
 qplot(log(gdpPercap),lifeExp,data=df, color = year)
 ```
 
+
+A follow-up question on the relationship between GDP and life expectancy is whether or not the rate of change of a country's life expectancy is impacted by the rate of change of its per-capita GDP. 
+
+```{r}
+ggplot(df, aes(x=gdpPercap_change,y=lifeExp_change, color = continent)) + geom_point() + geom_smooth(method=lm, se = FALSE) + ylim(-25,25) + xlim(-50,50) + labs(title="Comparing Growth Rates of Life Expectancy and Per-Capita GDP") +
+  labs(x="Per-Capita GDP Growth Rate (%)", y="Life Expectancy Growth Rate (%)")
+```
+
+The scatterplot includes linear regression lines for each continent and the fitting results are as follows:
+
+```{r}
+fit_africa <- lm(lifeExp_change ~ gdpPercap_change, data = (df %>% filter(continent == 'Africa')))
+summary(fit_africa)
+fit_americas <- lm(lifeExp_change ~ gdpPercap_change, data = (df %>% filter(continent == 'Americas')))
+summary(fit_americas)
+fit_asia <- lm(lifeExp_change ~ gdpPercap_change, data = (df %>% filter(continent == 'Asia')))
+summary(fit_asia)
+fit_europe <- lm(lifeExp_change ~ gdpPercap_change, data = (df %>% filter(continent == 'Europe')))
+summary(fit_europe)
+fit_oceania <- lm(lifeExp_change ~ gdpPercap_change, data = (df %>% filter(continent == 'Oceania')))
+summary(fit_oceania)
+
+```
