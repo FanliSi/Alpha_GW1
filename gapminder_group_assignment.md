@@ -15,10 +15,38 @@ As an overview let us consider how life expectancy varies as a function of per-c
 
 ![](gapminder_group_assignment_files/figure-html/unnamed-chunk-1-1.png)<!-- -->![](gapminder_group_assignment_files/figure-html/unnamed-chunk-1-2.png)<!-- -->
 
+The results of the linear regression are as follows:
+
+
+```
+## 
+## Call:
+## lm(formula = lifeExp ~ log(gdpPercap), data = df)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -30.405  -3.846   1.008   4.484  18.611 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)     -6.6903     1.2436   -5.38 8.59e-08 ***
+## log(gdpPercap)   8.1727     0.1497   54.58  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 7.366 on 1560 degrees of freedom
+## Multiple R-squared:  0.6563,	Adjusted R-squared:  0.6561 
+## F-statistic:  2979 on 1 and 1560 DF,  p-value: < 2.2e-16
+```
+
+And the residuals look like:
+
+![](gapminder_group_assignment_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+As a result we can say that there is a clear relationship between life expectancy and per-capita GDP.
 
 To get a more clear picture about the relationship between life expectancy and per-capita GDP:
 
-![](gapminder_group_assignment_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+![](gapminder_group_assignment_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 It seems that life expectancy has GDP has an exponentially relationship.
 
@@ -76,4 +104,4 @@ Oceania:
 ## gdpPercap_change -0.04345702 0.03295706 -1.318595 2.022055e-01
 ```
 
-Note that the growth rate of per-capita GDP appears to have an impact on life expectancy growth rate for both Europe and Asia (p-value < $10^{-4}$), while having a minimal impact on the other continents.
+Note that the growth rate of per-capita GDP appears to have an impact on life expectancy growth rate for both Europe and Asia (p-value < 10<sup>-4</sup>), while having a minimal impact on the other continents.
