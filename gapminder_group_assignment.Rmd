@@ -1,7 +1,7 @@
 ---
 title: "Gapminder Group Project"
 author: "David Dvorak, Elton Chan, Fanli Si, Jingyang Liu"
-date: "November 16, 2016"
+date: "November 23, 2016"
 output: 
   html_document: 
     keep_md: true
@@ -18,10 +18,10 @@ Countries with higher per-capita GDP have higher life expectancies.
 # Our Analysis:
 
 ```{r load_packages, message=FALSE, results='hide',include=FALSE}
-library(ggplot2)
-library(plyr)
-library(dplyr)
-library(gapminder)
+require(ggplot2)
+require(plyr)
+require(dplyr)
+require(gapminder)
 #install.packages("gapminder")
 ```
 
@@ -49,34 +49,42 @@ And the residuals look like:
 ```{r}
 qplot(predict(fit_world), residuals(fit_world),alpha=0.4,xlab="Predicted Life Expectancy",ylab="Residuals")
 ```
-As a result we can say that there is a clear relationship between life expectancy and per-capita GDP.
 
-To get a more clear picture about the relationship between life expectancy and per-capita GDP:
+As a result we can say that there is a clear linear relationship between life expectancy and the logarithm of per-capita GDP.
+
+To get a more clear picture about the relationship between life expectancy and per-capita GDP on different continents:
 
 ```{r}
 ggplot(gapminder,
        aes(x = gdpPercap, y = lifeExp, group = continent, color = continent)) +
   geom_point(lwd = 1, show.legend = FALSE)  +  geom_smooth(method = "lm", formula = y ~ log(x)) + facet_wrap(~ continent) +
   scale_color_manual(values = continent_colors) +
-  theme_bw() + theme(strip.text = element_text(size = rel(1.1)))
+  theme_bw() + theme(strip.text = element_text(size = rel(1.1))) +
+  labs(x="Per-Capita GDP (int. dollars)", y="Life Expectancy (Years)")
 ```
 
-It seems that life expectancy has GDP has an exponentially relationship.
+It seems that GDP has a logarithmic relationship with life expectancy.
+
+We can also look at how per-capita GDP and life expectancies have changed over time on each continent:
 
 ```{r}
 ggplot(gapminder,
        aes(x = year, y = lifeExp, group = continent, color = continent)) +
-  geom_point(lwd = 1, show.legend = FALSE)  +  geom_smooth(method="lm") + facet_wrap(~ continent)
+  geom_point(lwd = 1, show.legend = FALSE)  +  geom_smooth(method="lm") + 
+    facet_wrap(~ continent) + 
   scale_color_manual(values = continent_colors) +
-  theme_bw() + theme(strip.text = element_text(size = rel(1.1)))
+  theme_bw() + theme(strip.text = element_text(size = rel(1.1))) +
+  labs(x="Year", y="Life Expectancy (Years)")
   
 ggplot(gapminder,
        aes(x = year, y = gdpPercap, group = continent, color = continent)) +
-  geom_point(lwd = 1, show.legend = FALSE)  +  geom_smooth(method="lm") + facet_wrap(~ continent)
-  scale_color_manual(values = continent_colors) +
-  theme_bw() + theme(strip.text = element_text(size = rel(1.1)))
+  geom_point(lwd = 1, show.legend = FALSE)  +  geom_smooth(method="lm") + facet_wrap(~ continent) +   scale_color_manual(values = continent_colors) +
+  theme_bw() + theme(strip.text = element_text(size = rel(1.1))) +
+  labs(x="Year", y="Per-Capita GDP (int. dollars)")
 
 ```
+
+Interestingly, life expectancies across continents appear to increase a faster rate than per-capita GDP.
 
 A follow-up question on the relationship between GDP and life expectancy is whether or not the rate of change of a country's life expectancy is impacted by the rate of change of its per-capita GDP. 
 
