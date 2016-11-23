@@ -44,9 +44,27 @@ And the residuals look like:
 ![](gapminder_group_assignment_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 As a result we can say that there is a clear relationship between life expectancy and per-capita GDP.
 
-A follow-up question on the relationship between GDP and life expectancy is whether or not the rate of change of a country's life expectancy is impacted by the rate of change of its per-capita GDP. 
+To get a more clear picture about the relationship between life expectancy and per-capita GDP:
 
 ![](gapminder_group_assignment_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+
+It seems that life expectancy has GDP has an exponentially relationship.
+
+![](gapminder_group_assignment_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+
+```
+## NULL
+```
+
+![](gapminder_group_assignment_files/figure-html/unnamed-chunk-5-2.png)<!-- -->
+
+```
+## NULL
+```
+
+A follow-up question on the relationship between GDP and life expectancy is whether or not the rate of change of a country's life expectancy is impacted by the rate of change of its per-capita GDP. 
+
+![](gapminder_group_assignment_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
 The scatterplot includes linear regression lines for each continent and the fitting results are as follows:
 
